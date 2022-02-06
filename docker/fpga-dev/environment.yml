@@ -1,0 +1,9 @@
+name: base
+channels:
+  - litex-hub
+dependencies:
+  - jupyterlab
+  - meson
+  - sbt
+  #- pip:
+    #- -r requirements.txt
