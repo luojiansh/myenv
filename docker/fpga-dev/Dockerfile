@@ -19,7 +19,7 @@ ARG GID=1000
 ARG USER=jian
 ENV EDITEOR=vim
 RUN useradd -u $UID -g $GID -m $USER
-RUN echo "$USER	ALL=(ALL:ALL) NOPASSWD:SETENV:/usr/bin/apt,/usr/bin/apt-get" >> /etc/sudoers
+RUN echo "$USER	ALL=(ALL:ALL) NOPASSWD:SETENV:/usr/bin/apt*" >> /etc/sudoers
 RUN chown -R $USER /opt
 
 VOLUME ["/home/$USER"]
