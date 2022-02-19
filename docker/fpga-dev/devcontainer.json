@@ -1,0 +1,21 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.217.4/containers/jupyter-datascience-notebooks
+{
+	"name": "FPGA Dev",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"UID": "10000",
+			"GID": "10000"
+		}
+	},
+	"overrideCommand": true,
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+	],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "pip3 install --user -r requirements.txt",
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "jian",
+}
