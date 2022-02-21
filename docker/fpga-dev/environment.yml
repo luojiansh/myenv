@@ -2,8 +2,11 @@ name: base
 channels:
   - litex-hub
 dependencies:
-  - jupyterlab
+  #- jupyterlab
+  - ipykernel
   - meson
   - sbt
-  #- pip:
-    #- -r requirements.txt
+  - pip:
+    # Amaranth language
+    - git+https://github.com/amaranth-lang/amaranth.git@main
+    - git+https://github.com/amaranth-lang/amaranth-boards.git@main

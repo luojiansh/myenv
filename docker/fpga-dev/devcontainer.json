@@ -4,18 +4,22 @@
 	"name": "FPGA Dev",
 	"build": {
 		"dockerfile": "Dockerfile",
-		"args": {
-			"UID": "10000",
-			"GID": "10000"
-		}
 	},
 	"overrideCommand": true,
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-python.python",
+		"scalameta.metals"
 	],
+	"settings": {
+		"terminal.integrated.defaultProfile.linux": "bash"
+	},
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "pip3 install --user -r requirements.txt",
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "jian",
+	"containerEnv": {
+		"JAVA_OPTS": "-Dhttps.proxyHost=192.168.67.2 -Dhttps.proxyPort=3128"
+	},
+	"postCreateCommand": "wget -O /tmp/coursier https://git.io/coursier-cli && chmod +x /tmp/coursier && /tmp/coursier launch --fork almond:0.10.0 --scala 2.12.11 -- --install && rm /tmp/coursier && sudo chown -R `id -u`:`id -g` /opt"
 }

@@ -13,49 +13,31 @@ RUN apt-get update; apt-get install -y \
   vim \
   zlib1g-dev
 
-# Add normal user
-ARG UID=1000
-ARG GID=$UID
-ARG USER=jian
-ENV EDITEOR=vim
-RUN groupadd -g $GID $USER
-RUN useradd -u $UID -g $GID -m $USER
-RUN echo "$USER	ALL=(ALL:ALL) NOPASSWD:SETENV:/usr/bin/apt*" >> /etc/sudoers
-RUN chown -R $USER /opt
+# FPGA toolchain from YosysHQ
+RUN ARCH=`arch`; [ "$ARCH" = "x86_64" ] && ARCH=x64; wget -O - https://github.com/YosysHQ/oss-cad-suite-build/releases/download/`date +'%Y-%m-%d'`/oss-cad-suite-linux-$ARCH-`date +'%Y%m%d'`.tgz \
+  | tar -C /opt -zxf -
+RUN echo "export PATH=\$PATH:/opt/oss-cad-suite/bin" >> /etc/bash.bashrc
+ENV VERILATOR_ROOT="/opt/oss-cad-suite/share/verilator"
+ENV GHDL_PREFIX="/opt/oss-cad-suite/lib/ghdl"
 
-VOLUME ["/home/$USER"]
-WORKDIR "/home/$USER"
-USER $USER
-
-# Setup conda environment
-COPY --chown=$UID:$GID environment.yml /tmp
+# Update conda base
+COPY environment.yml /tmp
 RUN conda config --add channels LiteX-Hub
 RUN mamba env update --file /tmp/environment.yml && rm /tmp/environment.yml
-
-# FPGA toolchain from YosysHQ
-ARG TARGETARCH=arm64
-ARG TARGETOS=linux
-RUN wget -O - https://github.com/YosysHQ/oss-cad-suite-build/releases/download/`date +'%Y-%m-%d'`/oss-cad-suite-$TARGETOS-$TARGETARCH-`date +'%Y%m%d'`.tgz \
-  | tar -C /opt -zxf -
-RUN echo "export PATH=/opt/oss-cad-suite/bin:\$PATH" >> ~/.bashrc
 
 # Litex
 RUN mkdir /opt/fpga
 RUN git -C /opt/fpga clone https://github.com/enjoy-digital/litex.git
 RUN cd /opt/fpga/litex && ./litex_setup.py install --init
 
-# Amaranth
-RUN git -C /opt/fpga clone https://github.com/amaranth-lang/amaranth.git
-RUN git -C /opt/fpga clone https://github.com/amaranth-lang/amaranth-boards.git
-RUN cd /opt/fpga/amaranth && python setup.py develop
-RUN cd /opt/fpga/amaranth-boards && python setup.py develop
-RUN rm -rf /opt/fpga/amaranth*/nmigen*
+# Create the user
+ARG USERNAME=jian
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
 
-# Almond for Scala notebook
-RUN wget -O coursier https://git.io/coursier-cli && \
-  chmod +x coursier && \
-  if [ -n "\$http_proxy" ]; then \
-  ./coursier -J-Dhttps.proxyHost=192.168.67.2 -J-Dhttps.proxyPort=3128 launch --fork almond:0.10.0 --scala 2.12.11 -- --install; \
-  else \
-  ./coursier launch --fork almond:0.10.0 --scala 2.12.11 -- --install; \
-  fi
+RUN groupadd --gid $USER_GID $USERNAME \
+  && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+  && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+  && chmod 0440 /etc/sudoers.d/$USERNAME
+
+USER $USERNAME
