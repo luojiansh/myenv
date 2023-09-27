@@ -37,10 +37,10 @@ return {
                 }
 
                 -- Autocmd that will actually be in charging of starting hls
-                local hls_augroup = vim.api.nvim_create_augroup('haskell-lsp', {clear = true})
+                local hls_augroup = vim.api.nvim_create_augroup('haskell-lsp', { clear = true })
                 vim.api.nvim_create_autocmd('FileType', {
                     group = hls_augroup,
-                    pattern = {'haskell', 'lhaskell', 'cabal', 'cabalproject'},
+                    pattern = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
                     callback = function()
                         ---
                         -- Suggested keymaps from the quick setup section:
@@ -102,12 +102,13 @@ return {
 
                 cmp.setup({
                     sources = {
-                        {name = 'nvim_lsp'},
-                        {name = 'luasnip'},
+                        { name = 'nvim_lsp' },
+                        { name = 'luasnip' },
+                        { name = 'buffer' },
                     },
                     mapping = cmp.mapping.preset.insert({
                         -- `Enter` key to confirm completion
-                        ['<CR>'] = cmp.mapping.confirm({select = false}),
+                        ['<CR>'] = cmp.mapping.confirm({ select = false }),
 
                         -- Ctrl+Space to trigger completion menu
                         ['<C-Space>'] = cmp.mapping.complete(),
