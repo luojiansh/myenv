@@ -18,7 +18,6 @@ return {
                     'gopls',
                     'ltex',
                     'bashls',
-                    'hls',
                 })
 
                 -- (Optional) Configure lua language server for neovim
@@ -65,6 +64,9 @@ return {
                             ht.repl.toggle(vim.api.nvim_buf_get_name(0))
                         end, def_opts)
                         vim.keymap.set('n', '<leader>rq', ht.repl.quit, opts)
+                        local hti = require('haskell-tools.internal')
+                        hti.start_or_attach()
+                        hti.dap_discover()
                     end
                 })
             end
