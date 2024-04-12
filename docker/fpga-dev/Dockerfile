@@ -15,9 +15,10 @@ RUN apt-get update; apt-get install -y \
 
 # Add normal user
 ARG UID=1000
-ARG GID=1000
+ARG GID=$UID
 ARG USER=jian
 ENV EDITEOR=vim
+RUN groupadd -g $GID $USER
 RUN useradd -u $UID -g $GID -m $USER
 RUN echo "$USER	ALL=(ALL:ALL) NOPASSWD:SETENV:/usr/bin/apt*" >> /etc/sudoers
 RUN chown -R $USER /opt
@@ -51,6 +52,10 @@ RUN cd /opt/fpga/amaranth-boards && python setup.py develop
 RUN rm -rf /opt/fpga/amaranth*/nmigen*
 
 # Almond for Scala notebook
-RUN wget -O coursier https://git.io/coursier-cli
-RUN chmod +x coursier
-RUN ./coursier launch --fork almond:0.10.0 --scala 2.12.11 -- --install
+RUN wget -O coursier https://git.io/coursier-cli && \
+  chmod +x coursier && \
+  if [ -n "\$http_proxy" ]; then \
+  ./coursier -J-Dhttps.proxyHost=192.168.67.2 -J-Dhttps.proxyPort=3128 launch --fork almond:0.10.0 --scala 2.12.11 -- --install; \
+  else \
+  ./coursier launch --fork almond:0.10.0 --scala 2.12.11 -- --install; \
+  fi
