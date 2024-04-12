@@ -63,9 +63,9 @@ return {
                             ht.repl.toggle(vim.api.nvim_buf_get_name(0))
                         end, opts)
                         vim.keymap.set('n', '<leader>rq', ht.repl.quit, opts)
-                        local hti = require('haskell-tools.internal')
-                        hti.start_or_attach()
-                        hti.dap_discover()
+
+                        -- telescope extension
+                        require('telescope').load_extension('ht')
                     end
                 })
             end
@@ -137,7 +137,7 @@ return {
                 {
                     'williamboman/mason.nvim',
                     build = function()
-                        pcall(vim.cmd, 'MasonUpdate')
+                        pcall(function() vim.cmd [[MasonUpdate]] end)
                     end,
                 },
             },
