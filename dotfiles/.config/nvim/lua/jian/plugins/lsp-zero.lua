@@ -28,11 +28,10 @@ return {
                 ---
                 -- Setup haskell LSP
                 ---
-                local hls_lsp = require('lsp-zero').build_options('hls', {})
 
                 vim.g.haskell_tools = {
                     hls = {
-                        capabilities = hls_lsp.capabilities,
+                        capabilities = lsp.get_capabilities()
                     }
                 }
 
@@ -49,7 +48,7 @@ return {
 
                         local ht = require('haskell-tools')
                         local bufnr = vim.api.nvim_get_current_buf()
-                        local def_opts = { noremap = true, silent = true, buffer = bufnr, }
+                        local opts = { noremap = true, silent = true, buffer = bufnr, }
                         -- haskell-language-server relies heavily on codeLenses,
                         -- so auto-refresh (see advanced configuration) is enabled by default
                         vim.keymap.set('n', '<space>ca', vim.lsp.codelens.run, opts)
@@ -62,7 +61,7 @@ return {
                         -- Toggle a GHCi repl for the current buffer
                         vim.keymap.set('n', '<leader>rf', function()
                             ht.repl.toggle(vim.api.nvim_buf_get_name(0))
-                        end, def_opts)
+                        end, opts)
                         vim.keymap.set('n', '<leader>rq', ht.repl.quit, opts)
                         local hti = require('haskell-tools.internal')
                         hti.start_or_attach()
