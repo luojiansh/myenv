@@ -1,1 +1,1 @@
-vim.keymap.set("n", "<leader>pv", vim.cmd.Lex, { desc = "Open Netrw directly listing" })
+vim.keymap.set("n", "<leader>pp", vim.cmd.Lex, { desc = "Toggle Netrw directly listing" })

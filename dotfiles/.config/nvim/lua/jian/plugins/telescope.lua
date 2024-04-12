@@ -8,16 +8,18 @@ return {
         local ok, builtin = pcall(require, 'telescope.builtin')
         if ok then
             return {
-                { '<leader>pf', builtin.find_files, desc = 'find files' },
-                { '<C-p>',      builtin.git_files,  desc = 'git files' },
+                { '<leader>ff', builtin.find_files, desc = 'find files' },
+                { '<leader>fg', builtin.live_grep,  desc = 'live grep' },
+                { '<leader>fb', builtin.buffers,    desc = 'find buffer' },
+                { '<leader>gf',      builtin.git_files,  desc = 'git files' },
                 {
-                    '<leader>ps',
+                    '<leader>fs',
                     function()
                         builtin.grep_string({ search = vim.fn.input("Grep > ") })
                     end,
                     desc = 'grep string'
                 },
-                { '<leader>vh', builtin.help_tags, desc = 'help tags' }
+                { '<leader>fh', builtin.help_tags, desc = 'help tags' }
             }
         else
             return {}
