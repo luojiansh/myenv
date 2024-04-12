@@ -77,7 +77,14 @@ return {
             'hrsh7th/nvim-cmp',
             event = 'InsertEnter',
             dependencies = {
-                { 'L3MON4D3/LuaSnip' },
+                {
+                    'L3MON4D3/LuaSnip',
+                    dependencies = {
+                        { "rafamadriz/friendly-snippets" },
+                    },
+                },
+                { 'saadparwaiz1/cmp_luasnip', },
+                { 'hrsh7th/cmp-buffer', },
             },
             config = function()
                 -- Here is where you configure the autocompletion settings.
@@ -89,9 +96,16 @@ return {
                 -- And you can configure cmp even more, if you want to.
                 local cmp = require('cmp')
                 local cmp_action = require('lsp-zero.cmp').action()
+                local cmp_format = require('lsp-zero').cmp_format()
+
+                require('luasnip.loaders.from_vscode').lazy_load()
 
                 cmp.setup({
-                    mapping = {
+                    sources = {
+                        {name = 'nvim_lsp'},
+                        {name = 'luasnip'},
+                    },
+                    mapping = cmp.mapping.preset.insert({
                         -- `Enter` key to confirm completion
                         ['<CR>'] = cmp.mapping.confirm({select = false}),
 
@@ -105,7 +119,9 @@ return {
                         -- Scroll up and down in the completion documentation
                         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
                         ['<C-d>'] = cmp.mapping.scroll_docs(4),
-                    }
+                    }),
+                    --- (Optional) Show source name in completion menu
+                    formatting = cmp_format,
                 })
             end
         },
