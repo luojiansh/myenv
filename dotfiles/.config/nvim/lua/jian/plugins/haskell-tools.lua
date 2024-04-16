@@ -48,9 +48,6 @@ return {
                     end, opts)
                     vim.keymap.set('n', '<leader>rq', ht.repl.quit, opts)
 
-                    vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', { desc = 'Show diagnostic' })
-                    vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', { desc = 'Previous diagnostic' })
-                    vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', { desc = 'Next diagnostic' })
                     -- telescope extension
                     require('telescope').load_extension('ht')
                 end
