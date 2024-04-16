@@ -2,10 +2,10 @@ return {
     {
         "numToStr/Comment.nvim",
         keys = {
-            { "gbc", desc = "block comment" },
-            { "gcc", desc = "line comment" },
-            { "gc",  mode = "v",          desc = "line comment" },
-            { "gb",  mode = "v",          desc = "block comment" },
+            { "gbc", desc = "Block comment" },
+            { "gcc", desc = "Line comment" },
+            { "gc",  mode = "v",            desc = "Line comment" },
+            { "gb",  mode = "v",            desc = "Block comment" },
         },
         config = true
     }
