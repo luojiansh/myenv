@@ -12,7 +12,7 @@ return {
                 { '<leader>fg', builtin.live_grep,  desc = 'Live grep' },
                 { '<leader>fb', builtin.buffers,    desc = 'Find buffer' },
                 { '<leader>gf',      builtin.git_files,  desc = 'Find git files' },
-                { '<leader>gc',      builtin.git_commit_range,  desc = 'Find git commit range' },
+                { '<leader>gr',      builtin.git_commit_range,  desc = 'Find git commit range' },
                 {
                     '<leader>fs',
                     function()
