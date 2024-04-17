@@ -31,13 +31,15 @@ return {
                 require('mason').setup({})
                 require('mason-lspconfig').setup({
                     ensure_installed = {
-                        'tsserver',
+                        'bashls',
+                        'clangd',
                         'eslint',
-                        'lua_ls',
-                        'rust_analyzer',
                         'gopls',
                         'ltex',
-                        'bashls',
+                        'lua_ls',
+                        'rust_analyzer',
+                        'tsserver',
+                        'verible',
                     },
                     handlers = {
                         function(server_name)
