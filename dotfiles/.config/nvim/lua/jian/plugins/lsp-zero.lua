@@ -37,6 +37,7 @@ return {
                         'gopls',
                         'ltex',
                         'lua_ls',
+                        'pylsp',
                         'rust_analyzer',
                         'tsserver',
                         'verible',
